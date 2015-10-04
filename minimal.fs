@@ -1,7 +1,5 @@
 \ Minimal Forth word set                    uh 2015-10-04
 
-: :?  >in @  parse-name find-name IF  drop  postpone \  ELSE  >in !  : THEN ;
-
 : min-n ( -- x )
     -1 BEGIN dup 2* dup WHILE  swap drop REPEAT drop ;
 
@@ -10,27 +8,24 @@
 : tick (  <spaces>name<spaces> -- xt f )
     state @  ] bl word find rot IF ] ELSE POSTPONE [ THEN ;
 
-\ : synonym ( <spaces>oldname<spaces> <spaces>newname<spaces> -- )  
-\     tick  CREATE  0 > IF immediate THEN  , DOES> @ EXECUTE ;
-
-: alias-immediate ( xt <spaces>name<spaces> -- )
+: immediate-alias ( xt <spaces>name<spaces> -- )
     CREATE , immediate DOES> @ EXECUTE ;
 
-: alias-non-immediate ( xt <spaces>name<spaces> -- )
+: non-immediate-alias ( xt <spaces>name<spaces> -- )
     CREATE , immediate DOES> @ state @ IF compile,  ELSE  EXECUTE THEN ;
-
 
 variable #primitive  0 #primitive !
 
 wordlist Constant minimal
 
 : primitive ( <space>ccc<space> -- )
-    get-order get-current
-    forth-wordlist 1 set-order   minimal set-current
+    get-order
+    forth-wordlist 1 set-order
     1 #primitive +!
-    >in @  tick  rot >in !  0< IF alias-non-immediate ELSE alias-immediate THEN
-    set-current set-order
-;
+    >in @  tick  rot >in !  0< IF non-immediate-alias ELSE immediate-alias THEN
+    set-order ;
+
+: :?  >in @  parse-name find-name IF  drop  postpone \  ELSE  >in !  : THEN ;
 
 minimal set-current
 
@@ -114,17 +109,13 @@ primitive PARSE
 primitive EXIT
 
 primitive primitive
-
 primitive :?
 
 get-order ' set-order
-
 minimal 1 set-order 
 
 include prelude.fs
 
 execute
-
 cr .( Minimal Forth word set activated: )  #primitive @ . .( primitives )  cr
-
 minimal 1 set-order
