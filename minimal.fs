@@ -5,96 +5,113 @@
 
 : U2/ ( u -- u )  2/  [ min-n invert ] Literal and ;
 
-: primitive ( <space>ccc<space> -- ) ;
+variable #primitive  0 #primitive !
 
 wordlist Constant minimal
 
+: primitive ( <space>ccc<space> -- ) \ use synonym
+    get-order
+    forth-wordlist 1 set-order  get-current minimal set-current
+    1 #primitive +!
+    >in @ >r
+    state @ >r ] bl word find dup 0= Abort" ?" r> IF ] ELSE postpone [ THEN
+    r@ >in !
+    0< IF
+      drop   ' r> >in ! alias
+    ELSE
+      r> drop
+      >r :  r> compile,  postpone ;  immediate
+    THEN
+    set-current set-order
+;
+
+
+
+
 minimal set-current
 
-\ primitive !
-\ primitice , ...
-
-' ! alias !
-' , alias ,
-' @ alias @
-\ ' align alias ALIGN
-' aligned alias ALIGNED
-' cell+ alias CELL+
-' cells alias CELLS
-' c! alias C!
-' c, alias C,
-' c@ alias C@
+primitive !
+primitive ,
+primitive @
+primitive ALIGN
+\ primitive ALIGNED
+primitive CELL+
+primitive CELLS
+primitive C!
+primitive C,
+primitive C@
 : CALIGN ;
 : CALIGNED ;
-\ ' char+ alias CHAR+ 
-' chars alias CHARS
+\ primitive CHAR+
+primitive CHARS
 
-' */mod alias */MOD
-' - alias -
-' 2/ alias 2/
-' u2/ ( u -- u )  alias u2/
+primitive */MOD
+primitive -
+primitive 2/
+primitive u2/
 
-\ ' 0= alias 0=
-' < alias <
-' and alias AND
-' invert alias INVERT
+\ primitive 0=
+primitive <
+primitive AND
+primitive INVERT
 
-\ ' dup alias DUP
-' swap alias SWAP
-' >r alias >R
-' r@ alias R@
-' drop alias DROP
-' over alias OVER
-' r> alias R>
+\ primitive DUP
+primitive SWAP
+primitive >R
+primitive R@
+primitive DROP
+primitive OVER
+primitive R>
 
-\ primitive IF
-: IF postpone IF ; immediate
-: THEN postpone THEN ; immediate
-: WHILE postpone WHILE ; immediate
-: REPEAT postpone REPEAT ; immediate
-: DO postpone DO ; immediate
-' I alias I
-' ' alias '
-: ELSE postpone ELSE ; immediate
-: BEGIN postpone BEGIN ; immediate
-\ : AGAIN postpone AGAIN ; immediate
-: UNTIL postpone UNTIL ; immediate
-: LOOP postpone LOOP ; immediate
-' J alias J
-' EXECUTE alias EXECUTE
+primitive IF
+primitive THEN
+primitive WHILE
+primitive REPEAT
+primitive DO
+primitive I
+primitive '
+primitive ELSE
+primitive BEGIN
+\ primitive AGAIN
+primitive UNTIL
+primitive LOOP
+primitive J
+primitive EXECUTE
 
-' : alias :
-' CREATE alias CREATE 
-: ; postpone ; ; immediate
-: DOES> postpone does> ; immediate
+primitive :
+primitive CREATE
+primitive ;
+primitive DOES>
 
-' key alias KEY
-' emit alias EMIT
-' key? alias KEY?
-' cr alias CR
+primitive KEY
+primitive EMIT
+primitive KEY?
+primitive CR
 
-: ( postpone ( ; immediate
-' .s alias .S
-: \ postpone \ ; immediate
+primitive (
+primitive .S
+primitive \
 
-' bye alias bye
-' include alias INCLUDE
-' words alias WORDS
-\ ' order alias order
+primitive bye
+primitive INCLUDE
+primitive WORDS
+\ primitive order
 
-' postpone alias POSTPONE immediate
-' immediate alias IMMEDIATE
-' >body alias >BODY
-\ ' compile, alias COMPILE,
-: SLITERAL postpone sliteral ; immediate
-: LITERAL  postpone literal ; immediate
-' compile, alias COMPILE,
+primitive POSTPONE
+primitive IMMEDIATE
+primitive >BODY
 
-' parse alias PARSE
+primitive SLITERAL
+primitive LITERAL
+primitive COMPILE,
 
-: EXIT  postpone exit ; immediate
+primitive PARSE
+
+primitive EXIT
 
 : :?  >in @  parse-name find-name IF  drop  postpone \  ELSE  >in !  : THEN ;
+
+primitive primitive
 
 get-order ' set-order
 
@@ -104,6 +121,6 @@ include prelude.fs
 
 execute
 
-cr .( Minimal Forth word set activated )  cr
+cr .( Minimal Forth word set activated: )  #primitive @ . .( primitives )  cr
 
 minimal 1 set-order
