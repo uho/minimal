@@ -14,18 +14,21 @@
 : non-immediate-alias ( xt <spaces>name<spaces> -- )
     CREATE , immediate DOES> @ state @ IF compile,  ELSE  EXECUTE THEN ;
 
-variable #primitive  0 #primitive !
+variable #primitives  0 #primitives !
+variable #words 0 #words !
 
-wordlist Constant minimal
+: #primitives++ ( -- )  1 #primitives +!  1 #words +! ;
 
 : primitive ( <space>ccc<space> -- )
     get-order
     forth-wordlist 1 set-order
-    1 #primitive +!
+    1 #primitives +!   1 #words +!
     >in @  tick  rot >in !  0< IF non-immediate-alias ELSE immediate-alias THEN
     set-order ;
 
-: :?  >in @  parse-name find-name IF  drop  postpone \  ELSE  >in !  : THEN ;
+
+
+wordlist Constant minimal
 
 minimal set-current
 
@@ -34,25 +37,38 @@ primitive ,
 primitive @
 primitive ALIGN
 \ primitive ALIGNED
-primitive CELL+
+\ primitive CELL+
 primitive CELLS
 primitive C!
 primitive C,
 primitive C@
-: CALIGN ;
-: CALIGNED ;
+: CALIGN ;   #primitives++
+: CALIGNED ; #primitives++
 \ primitive CHAR+
 primitive CHARS
 
+\ primitive + 
+\ primitive *
+\ primitive 2*
 primitive */MOD
 primitive -
+\ primitive /
 primitive 2/
+\ primitive MOD
 primitive u2/
 
 \ primitive 0=
 primitive <
 primitive AND
 primitive INVERT
+\ primitive TRUE
+\ primitive LSHIFT
+\ primitive =
+\ primitive >
+\ primitive OR
+\ primitive XOR
+\ primitive FALSE
+\ primitive RSHIFT
 
 \ primitive DUP
 primitive SWAP
@@ -71,15 +87,19 @@ primitive I
 primitive '
 primitive ELSE
 primitive BEGIN
-\ primitive AGAIN
+primitive AGAIN
 primitive UNTIL
 primitive LOOP
 primitive J
 primitive EXECUTE
 
-primitive :
-primitive CREATE
+\ primitive :
+: : : 1 #words +! ; #primitives++
+\ primitive CONSTANT
+\ primitive CREATE
+: CREATE  CREATE 1 #words +! ; #primitives++
 primitive ;
+\ primitive VARIABLE
 primitive DOES>
 
 primitive KEY
@@ -91,25 +111,27 @@ primitive (
 primitive .S
 primitive \
 
-primitive bye
-primitive INCLUDE
-primitive WORDS
-\ primitive order
+: bye bye ;
+: INCLUDE include ;
+\ primitive WORDS
+: WORDS  #primitives @ . ." primitives, " #words @ . ." words"  WORDS ;  \ #primitives++
+\ : order  order ;
 
-primitive POSTPONE
-primitive IMMEDIATE
-primitive >BODY
+\ support for compiling words
+\ primitive POSTPONE
+\ primitive IMMEDIATE
+\ primitive >BODY
+\ primitive SLITERAL
+\ primitive LITERAL
+\ primitive COMPILE,
 
-primitive SLITERAL
-primitive LITERAL
-primitive COMPILE,
+\ support for processing the input stream
+\ primitive PARSE
 
-primitive PARSE
+\ primitive EXIT
 
-primitive EXIT
+: primitive primitive ;
 
-primitive primitive
-primitive :?
 
 get-order ' set-order
 minimal 1 set-order 
@@ -117,5 +139,5 @@ minimal 1 set-order
 include prelude.fs
 
 execute
-cr .( Minimal Forth word set activated: )  #primitive @ . .( primitives )  cr
+cr .( Minimal Forth word set activated: )  #primitives @ . .( primitives, ) #words @ . .( words) cr
 minimal 1 set-order
