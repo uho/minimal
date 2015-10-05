@@ -1,4 +1,4 @@
-\ Define minimal Forth words in terms of others           uh 2015-10-03
+\ Define minimal Forth words in terms of others               uh 2015-10-05
 
 : DUP ( X1 -- X1 X1 )  >R R@ R> ;
 
@@ -18,7 +18,7 @@ FALSE INVERT CONSTANT TRUE
 : OR ( X X -- X )  INVERT SWAP INVERT AND INVERT ; ( do Morgan )
 : XOR ( X X -- X )  OVER OVER INVERT AND >R SWAP INVERT AND R> OR ;
 : LSHIFT ( X1 U -- X2 )  DUP IF  0 DO  2*  LOOP  THEN ;
-: RSHIFT ( X1 U -- X2 )  DUP IF  0 DO  U2/  LOOP  THEN ;
+: 2/ ( X1 -- X2 )  1 RSHIFT ;
 
 : ROT ( X1 X2 X3 -- X2 X3 X1 )  >R  SWAP R> SWAP ;
 : CHAR+ ( c-addr1 -- c-addr2 )  1 CHARS + ;

@@ -1,9 +1,4 @@
-\ Minimal Forth word set                    uh 2015-10-04
-
-: min-n ( -- x )
-    -1 BEGIN dup 2* dup WHILE  swap drop REPEAT drop ;
-
-: U2/ ( u -- u )  2/  [ min-n invert ] Literal and ;
+\ Minimal Forth word set                                         uh 2015-10-05
 
 : tick (  <spaces>name<spaces> -- xt f )
     state @  ] bl word find rot IF ] ELSE POSTPONE [ THEN ;
@@ -17,15 +12,14 @@
 variable #primitives  0 #primitives !
 variable #words 0 #words !
 
-: #primitives++ ( -- )  1 #primitives +!  1 #words +! ;
+: another-primitive ( -- )  1 #primitives +!  1 #words +! ;
 
 : primitive ( <space>ccc<space> -- )
     get-order
     forth-wordlist 1 set-order
-    1 #primitives +!   1 #words +!
+    another-primitive
     >in @  tick  rot >in !  0< IF non-immediate-alias ELSE immediate-alias THEN
     set-order ;
-
 
 
 wordlist Constant minimal
@@ -42,8 +36,8 @@ primitive CELLS
 primitive C!
 primitive C,
 primitive C@
-: CALIGN ;   #primitives++
-: CALIGNED ; #primitives++
+: CALIGN ;   another-primitive
+: CALIGNED ; another-primitive
 \ primitive CHAR+
 primitive CHARS
 
@@ -53,9 +47,8 @@ primitive CHARS
 primitive */MOD
 primitive -
 \ primitive /
-primitive 2/
+\ primitive 2/
 \ primitive MOD
-primitive u2/
 
 \ primitive 0=
 primitive <
@@ -68,7 +61,7 @@ primitive INVERT
 \ primitive OR
 \ primitive XOR
 \ primitive FALSE
-\ primitive RSHIFT
+primitive RSHIFT
 
 \ primitive DUP
 primitive SWAP
@@ -94,10 +87,10 @@ primitive J
 primitive EXECUTE
 
 \ primitive :
-: : : 1 #words +! ; #primitives++
+: : : 1 #words +! ; another-primitive
 \ primitive CONSTANT
 \ primitive CREATE
-: CREATE  CREATE 1 #words +! ; #primitives++
+: CREATE  CREATE 1 #words +! ; another-primitive
 primitive ;
 \ primitive VARIABLE
 primitive DOES>
@@ -114,7 +107,7 @@ primitive \
 : bye bye ;
 : INCLUDE include ;
 \ primitive WORDS
-: WORDS  #primitives @ . ." primitives, " #words @ . ." words"  WORDS ;  \ #primitives++
+: WORDS  #primitives @ . ." primitives, " #words @ . ." words"  WORDS ;
 \ : order  order ;
 
 \ support for compiling words
