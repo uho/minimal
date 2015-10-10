@@ -1,4 +1,4 @@
-\ Define minimal Forth words in terms of others               uh 2015-10-05
+\ Minimal Forth Workbench - Minimimal Forth words defined in terms of others         uh 2015-10-10
 
 : DUP ( X1 -- X1 X1 )  >R R@ R> ;
 
@@ -27,18 +27,23 @@ FALSE INVERT CONSTANT TRUE
 
 \ other useful words
 
+\ : COUNT ( addr1 -- addr2 len )  DUP CHAR+ SWAP C@ ;
 \ : TYPE ( addr len -- )  DUP IF  OVER + SWAP DO  I C@ EMIT  LOOP  THEN ;
+
 \ : DEFER ( xt "<Spaces>Name" -- )  CREATE , DOES> @ EXECUTE ;
 \ : VALUE ( n "<Spaces>Name" -- )  CREATE , DOES> @ ;
 
-\ if POSTPONE and LITERAL were available in the minimal word set:
+\ if POSTPONE and IMMEDIATE were available:
 \ : AGAIN   POSTPONE FALSE  POSTPONE UNTIL ; IMMEDIATE
+\ : ?EXIT   POSTPONE IF  POSTPONE EXIT  POSTPONE THEN ; IMMEDIATE
+
+\ if LITERAL would be available:
+\ : [']  ' POSTPONE LITERAL ; IMMEDIATE
 
 \ if >BODY would be available:
 \ : IS ( xt "<Spaces>Name" -- )  ' >BODY ! ;
 
-\ : COUNT ( addr1 -- addr2 len )  DUP CHAR+ SWAP C@ ;
+\ if PARSE and SLITERAL were available:
 \ : ."   34 PARSE POSTPONE SLITERAL POSTPONE TYPE ; IMMEDIATE
 \ : .(   41 PARSE TYPE ; IMMEDIATE
-\ : ?EXIT   POSTPONE IF  POSTPONE EXIT  POSTPONE THEN ; IMMEDIATE
-\ : [']  ' POSTPONE LITERAL ; IMMEDIATE
+
