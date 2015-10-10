@@ -1,7 +1,7 @@
 Minimal Forth Workbench 
 =======================
 
-Ulrich Hoffmann <uho@xlerb.de>
+Ulrich Hoffmann <<uho@xlerb.de>>
 
 Version 1.0.0 - 2015-10-10
 
