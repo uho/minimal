@@ -1,6 +1,6 @@
 forth-package
 key-value name minimal
-key-value version 1.0.0
+key-value version 1.1.0
 key-value description Minimal Forth Workbench provides an educational subset of Standard Forth, feel free to experiment.
 key-list tags ANSForth94 
 key-list tags Forth-94 

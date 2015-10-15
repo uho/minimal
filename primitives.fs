@@ -1,4 +1,4 @@
-\ Minimal Forth Workbench - definitions of primitives                  uh 2015-10-10
+\ Minimal Forth Workbench: definitions of primitives                  uh 2015-10-10
 
 primitive !
 primitive ,
@@ -83,17 +83,6 @@ primitive \
 \ primitive WORDS
 : WORDS   WORDS   CR #primitives @ . ." primitives, " #words @ . ." words" ;
 \ : order  order ;
-
-\ support for compiling words
-\ primitive POSTPONE
-\ primitive IMMEDIATE
-\ primitive >BODY
-\ primitive SLITERAL
-\ primitive LITERAL
-\ primitive COMPILE,
-
-\ support for processing the input stream
-\ primitive PARSE
 
 \ primitive EXIT
 
