@@ -5,3 +5,5 @@
 : 2+ ( x1 -- x2 ) 2 + ;
 : 1- ( x1 -- x1 ) 1 - ;
 
+: MIN ( n1 n2 -- n3 )  OVER OVER > IF SWAP THEN DROP ;
+: MAX ( n1 n2 -- n3 )  OVER OVER < IF SWAP THEN DROP ;

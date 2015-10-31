@@ -3,7 +3,7 @@
 32 CONSTANT BL
 
 : SPACE ( -- )  BL EMIT ;
-: SPACES ( u -- ) DUP 0 > IF  0 DO SPACE LOOP   ELSE DROP THEN ;
+: SPACES ( u -- ) DUP 0 > IF  BEGIN DUP WHILE  SPACE 1 -  REPEAT  THEN  DROP ;
 
 : COUNT ( addr1 -- addr2 len )  DUP CHAR+ SWAP C@ ;
-: TYPE ( addr len -- )  DUP IF  OVER + SWAP DO  I C@ EMIT  LOOP  THEN ;
+: TYPE ( addr len -- )  BEGIN DUP WHILE  SWAP COUNT EMIT  SWAP 1 -  REPEAT DROP DROP ;

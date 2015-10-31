@@ -3,7 +3,7 @@ Minimal Forth Workbench
 
 Ulrich Hoffmann <<uho@xlerb.de>>
 
-Version 1.1.0 - 2015-10-15
+Version 1.1.1 - 2015-10-31
 
 This package provides a workbench implementation of **Minimal Forth** as proposed by
 Paul Bennett and Peter Knaggs at [EuroForth 2015][EuroForth2015] in Bath.
@@ -100,3 +100,11 @@ succesfully on SwiftForth, iForth and gForth.
 May the Forth be with you!
 
 [EuroForth2015]: http://www.rigwit.co.uk/EuroForth2015/
+
+
+## Version history
+
+1.1.1
+- Fix issue with TYPE pointed out by Peter Knaggs
+- Eliminate dependency on DO LOOP in all other definitions
+- Provide defintions for MIN and MAX

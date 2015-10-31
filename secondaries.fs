@@ -8,7 +8,7 @@
 : + ( N N -- N )  0 SWAP - - ;
 : * ( N N -- N )  1 */MOD SWAP DROP ;
 : / ( N N -- N )  1 SWAP */MOD SWAP DROP ;
-: 2* ( N N -- N )  dup + ;
+: 2* ( N N -- N )  DUP + ;
 : MOD ( N N -- N )  1 SWAP */MOD DROP ;
 0 CONSTANT FALSE
 FALSE INVERT CONSTANT TRUE
@@ -17,7 +17,7 @@ FALSE INVERT CONSTANT TRUE
 : > ( N N -- F )  SWAP < ;
 : OR ( X X -- X )  INVERT SWAP INVERT AND INVERT ; ( do Morgan )
 : XOR ( X X -- X )  OVER OVER INVERT AND >R SWAP INVERT AND R> OR ;
-: LSHIFT ( X1 U -- X2 )  DUP IF  0 DO  2*  LOOP  THEN ;
+: LSHIFT ( X1 U -- X2 )  BEGIN DUP WHILE >R  2*  R> 1 - REPEAT DROP ;
 : 2/ ( X1 -- X2 )  1 RSHIFT ;
 
 : ROT ( X1 X2 X3 -- X2 X3 X1 )  >R  SWAP R> SWAP ;

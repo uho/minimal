@@ -1,15 +1,20 @@
 \ Minimal Forth Workbench: main file                                        uh 2015-10-05
 
-: tick (  <spaces>name<spaces> -- xt f )
+: tick (  <spaces>name<spaces> -- comp-xt exec-xt flag )
     STATE @ >R
-      ] BL WORD FIND
+    ] >IN @ >R  BL WORD FIND
+    IF R> >IN !
+       POSTPONE [  BL WORD FIND
+    ELSE R> DROP
+       DROP 0 0 false
+    THEN
     R> IF ] ELSE POSTPONE [ THEN ;
 
-: immediate-alias ( xt <spaces>name<spaces> -- )
-    CREATE , IMMEDIATE DOES> @ EXECUTE ;
+: immediate-alias ( comp-xt exec-xt <spaces>name<spaces> -- )
+    CREATE , , IMMEDIATE DOES> STATE @ IF CELL+ THEN  @ EXECUTE ;
 
-: non-immediate-alias ( xt <spaces>name<spaces> -- )
-    CREATE , IMMEDIATE DOES> @   STATE @ IF COMPILE,  ELSE  EXECUTE THEN ;
+: non-immediate-alias ( comp-xt exec-xt <spaces>name<spaces> -- )
+    CREATE , , IMMEDIATE DOES> STATE @ IF CELL+ @ COMPILE,  ELSE  @ EXECUTE THEN ;
 
 VARIABLE #primitives  0 #primitives !
 VARIABLE #words 0 #words !
@@ -20,7 +25,7 @@ wordlist Constant minimal
 
 : primitive ( <space>ccc<space> -- )
     get-order
-      minimal 1 set-order   >IN @ >R  tick R> >IN ! NIP
+      minimal 1 set-order   >IN @ >R  tick R> >IN ! NIP NIP
       0= IF
         forth-wordlist 1 set-order
         another-primitive
