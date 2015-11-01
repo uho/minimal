@@ -7,3 +7,5 @@
 
 : COUNT ( addr1 -- addr2 len )  DUP CHAR+ SWAP C@ ;
 : TYPE ( addr len -- )  BEGIN DUP WHILE  SWAP COUNT EMIT  SWAP 1 -  REPEAT DROP DROP ;
+
+: /STRING ( c-addr1 u1 n -- c-addr2 u2 )  SWAP OVER - >R + R> ;
