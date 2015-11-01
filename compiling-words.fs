@@ -43,4 +43,14 @@ primitive >BODY
 : IS ( x "<spaces>name" -- ) 
    STATE @ IF  POSTPONE TO  ELSE ['] TO EXECUTE  THEN ; IMMEDIATE
 
+
+
+: CASE ( -- ) ( C: -- n ) 0 ; IMMEDIATE
+: OF ( x1 x2 -- | x1 )  >R POSTPONE OVER  POSTPONE = POSTPONE IF   POSTPONE DROP R> ; IMMEDIATE
+: ENDOF ( -- ) ( C: n1 -- n2 )  >R POSTPONE ELSE  R> 1 + ; IMMEDIATE
+: ENDCASE ( x1 -- ) ( C: n -- ) POSTPONE DROP  >R BEGIN R@ WHILE  POSTPONE THEN  R> 1 - >R REPEAT R> DROP ; IMMEDIATE
+
+
 primitive COMPILE,
+primitive [
+primitive ]
