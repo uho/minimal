@@ -52,3 +52,5 @@ CREATE <hold   100 CHARS DUP  ALLOT  <hold + CONSTANT hold>
 : .r  >r DUP 0 < r> d.r ;
 : .   DUP 0 <  d. ;
 
+: ? ( addr -- )  @ . ;
+
