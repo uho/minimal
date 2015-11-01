@@ -12,3 +12,15 @@
       >R  OVER C@  OVER C!   SWAP CHAR+ SWAP CHAR+  R> 1 -
    REPEAT ( c-add1 c-add2 u )
    DROP DROP DROP ;
+
+: FILL ( c-addr u x -- )
+     SWAP >R SWAP
+     BEGIN ( x c-addr ) ( R: u )
+       R@
+     WHILE ( x c-addr ) ( R: u )
+       OVER OVER C!   CHAR+   R> 1 - >R
+     REPEAT ( x c-addr ) ( R: u )
+     R> DROP DROP DROP ;
+
+: BLANK ( c-addr u -- )  32 FILL ;
+: ERASE ( c-addr u -- )   0 FILL ;
