@@ -15,3 +15,4 @@ include secondaries.fs   \ Minimal Forth secondaries, defined in terms of others
 \ include numeric-output.fs
 \ include file-access.fs
 \ include error-handling.fs
+\ include interpretive-conditionals.fs

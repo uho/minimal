@@ -20,6 +20,7 @@ check defining-words.fs
 check numeric-output.fs
 check file-access.fs
 check error-handling.fs
+check interpretive-conditionals.fs
 
 *minimal* 
 
