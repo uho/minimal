@@ -4,6 +4,9 @@
 
 include secondaries.fs   \ Minimal Forth secondaries, defined in terms of others
 
+include extensions.fs \ Minimal Forth extensions (emBitter/Hoffmann/Hoekstra/Ouwerkerk)
+                      \ as used in embeddingForth
+
 \ include stack.fs
 \ include double.fs
 \ include strings.fs

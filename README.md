@@ -16,6 +16,10 @@ words, strings, file access, exceptions, ...
 This package - the **Minimal Forth Workbench** - allows to experiment with different sets of primitive 
 (i.e. predefined) definitions in order to further elaborate on Paul's and Peter's ideas.
 
+In September 2021 Martin Bitter, Ulrich Hoffmann, Jeroen Hoekstra, and Willem Ouwerkerk extended
+Minimal Forth for using it as a model implementation language to be used
+in the [embddingForth-Projekt](https://github.com/embeddingforth).
+
 ## Implementation
 
 This implementation picks the appropriate words from a Standard (Forth 94 oder Forth
